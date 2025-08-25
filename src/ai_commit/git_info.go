@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// has it ever occured to me to stop
+
 // GitDiff returns the current diff output
 func GitDiff() string {
 	cmd := exec.Command("git", "diff")
