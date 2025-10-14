@@ -9,6 +9,28 @@ import (
 
 // has it ever occured to me to stop
 
+func GitNewFilesDiffs() ([]string, error) {
+	ls := exec.Command("git", "ls-files", "--others", "--exclude-standard", "-z")
+	b, err := ls.Output()
+	if err != nil {
+		return nil, err
+	}
+
+	files := strings.Split(string(b), "\x00")
+	var diffs []string
+	for _, f := range files {
+		if f == "" {
+			continue
+		}
+		out, err := exec.Command("git", "diff", "--no-index", "/dev/null", f).CombinedOutput()
+		if ee, ok := err.(*exec.ExitError); err != nil && (!ok || ee.ExitCode() != 1) {
+			return nil, err
+		}
+		diffs = append(diffs, string(out))
+	}
+	return diffs, nil
+}
+
 // GitDiff returns the current diff output
 func GitDiff() string {
 	cmd := exec.Command("git", "diff")
@@ -255,9 +277,17 @@ func Summary() string {
 	branch := GitBranch()
 	changedFiles := GitChangedFiles()
 	stagedFiles := GitStagedFiles()
-
+	newfiles, _ := GitNewFilesDiffs()
 	// Create a more detailed summary
 	summary := fmt.Sprintf("Branch: %s\n\n", branch)
+
+	if len(newfiles) > 0 {
+		summary += "New files:\n"
+		for _, file := range newfiles {
+			summary += fmt.Sprintf("  - %s\n", file)
+		}
+		summary += "\n"
+	}
 
 	if len(stagedFiles) > 0 {
 		summary += "Staged Files:\n"
