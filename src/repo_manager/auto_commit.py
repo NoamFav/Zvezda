@@ -11,24 +11,14 @@ import random
 from datetime import datetime
 from rich.console import Console
 from rich.panel import Panel
-from rich.markdown import Markdown
 from rich.table import Table
-from rich.progress import (
-    Progress,
-    SpinnerColumn,
-    TextColumn,
-    BarColumn,
-    TaskProgressColumn,
-    TimeRemainingColumn,
-)
-from rich.syntax import Syntax
+
 from rich.tree import Tree
 
 # Remove the Live import as we'll use Progress and status instead
 from rich.traceback import install as install_traceback
-from rich.box import ROUNDED, DOUBLE, HEAVY
+from rich.box import ROUNDED, DOUBLE
 from rich.align import Align
-from rich.style import Style
 
 # Install better traceback handling
 install_traceback(show_locals=True)
@@ -37,7 +27,7 @@ install_traceback(show_locals=True)
 console = Console()
 
 # Use the built-in box styles from rich
-from rich.box import ROUNDED, HEAVY, DOUBLE
+from rich.box import ROUNDED, DOUBLE
 
 # Icon mapping (will display as emoji in Rich)
 ICONS = {

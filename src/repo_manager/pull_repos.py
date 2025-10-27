@@ -11,20 +11,10 @@ import shutil
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from rich.progress import (
-    Progress,
-    SpinnerColumn,
-    TextColumn,
-    BarColumn,
-    TaskProgressColumn,
-    TimeRemainingColumn,
-)
+
 from rich.traceback import install as install_traceback
-from rich.box import ROUNDED, DOUBLE, HEAVY
+from rich.box import ROUNDED, DOUBLE
 from rich.align import Align
-from rich.text import Text
-from rich.tree import Tree
-from rich.style import Style
 
 # Install better traceback handling
 install_traceback(show_locals=True)
@@ -93,7 +83,7 @@ def print_subheader(text, icon="folder"):
     console.print(f"[yellow]{get_icon('separator') * (len(text) + 6)}")
 
 
-def get_github_repos(limit=1000, include_extra_info=True):
+def get_github_repos(limit=1000, _=True):
     """Get list of repositories from GitHub CLI with detailed information"""
     try:
         # Define fields to extract
@@ -184,7 +174,7 @@ def process_repository(repo_info, base_dir, total, current):
             with console.status(
                 f"[bold blue]Cloning {repo_name}...[/]", spinner="dots"
             ):
-                result = subprocess.run(
+                _ = subprocess.run(
                     ["gh", "repo", "clone", repo_name],
                     cwd=base_dir,
                     check=True,
@@ -237,7 +227,7 @@ def process_repository(repo_info, base_dir, total, current):
 def get_repo_size_str(repo_dir):
     """Get the size of a repository in human-readable format"""
     total_size = 0
-    for dirpath, dirnames, filenames in os.walk(repo_dir):
+    for dirpath, _, filenames in os.walk(repo_dir):
         for f in filenames:
             fp = os.path.join(dirpath, f)
             if not os.path.islink(fp):
