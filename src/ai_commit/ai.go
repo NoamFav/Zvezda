@@ -12,7 +12,7 @@ import (
 
 func AskOllama(prompt string) string {
 	requestBody, _ := json.Marshal(map[string]interface{}{
-		"model":  "mistral",
+		"model":  "qwen3:latest",
 		"prompt": prompt,
 		"stream": true,
 	})

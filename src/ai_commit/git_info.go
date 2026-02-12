@@ -379,7 +379,8 @@ func GenerateCommitPrompt() string {
 	suggestedType := DetectType()
 	suggestedScope := DetectScope()
 
-	prompt := fmt.Sprintf(`You are an AI Git assistant. Your task is to write a conventional commit message in the format:
+	prompt := fmt.Sprintf(`/no_think
+You are an AI Git assistant. Your task is to write a conventional commit message in the format:
 <type>(<scope>): <subject>
 
 I've analyzed the changes and suggest:
